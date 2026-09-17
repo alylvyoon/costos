@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Tarjeta de Almacén</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <h1>Tarjeta de Almacén - Control de Inventarios</h1>
+        <p>Sistema web interactivo para valuación por PEPS, UEPS y Promedio Ponderado</p>
+    </header>
+
+    <main class="container">
+        <!-- Panel de Configuración y Formulario -->
+        <section class="card">
+            <h2>Configuración y Registro</h2>
+            
+            <div class="method-selector-container">
+                <label for="metodoValuacion"><strong>Método de Valuación:</strong></label>
+                <select id="metodoValuacion">
+                    <option value="PEPS" selected>PEPS (Primeras Entradas, Primeras Salidas)</option>
+                    <option value="UEPS">UEPS (Últimas Entradas, Primeras Salidas)</option>
+                    <option value="PROMEDIO">Promedio Ponderado</option>
+                </select>
+            </div>
+
+            <form id="formMovimiento" class="form-grid">
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoMovimiento">Tipo de Movimiento:</label>
+                    <select id="tipoMovimiento" required>
+                        <option value="ENTRADA">Entrada (Compra/Recepción)</option>
+                        <option value="SALIDA">Salida (Venta/Requisición)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="concepto">Concepto:</label>
+                    <input type="text" id="concepto" placeholder="Ej. Compra inicial, Venta #1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cantidad">Cantidad (Unidades):</label>
+                    <input type="number" id="cantidad" min="1" step="1" placeholder="Ej. 100" required>
+                </div>
+
+                <div class="form-group" id="groupCostoUnitario">
+                    <label for="costoUnitario">Costo Unitario ($):</label>
+                    <input type="number" id="costoUnitario" min="0.01" step="0.01" placeholder="Ej. 10.00">
+                    <small class="help-text">Requerido solo para Entradas</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Registrar Movimiento</button>
+                    <button type="button" id="btnCargarEjemplo" class="btn btn-secondary">Cargar Datos de Ejemplo</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Tabla de Tarjeta de Almacén -->
+        <section class="card table-container">
+            <div class="table-header">
+                <h2>Auxiliar de Almacén</h2>
+                <span id="badgeMetodo" class="badge">Método: PEPS</span>
+            </div>
+
+            <table id="tablaAlmacen">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Fecha</th>
+                        <th rowspan="2">Concepto</th>
+                        <th colspan="3" class="header-group entrada-header">ENTRADAS</th>
+                        <th colspan="3" class="header-group salida-header">SALIDAS</th>
+                        <th colspan="3" class="header-group existencia-header">EXISTENCIAS</th>
+                        <th rowspan="2">Acción</th>
+                    </tr>
+                    <tr>
+                        <!-- Entradas -->
+                        <th class="subhead">Cant.</th>
+                        <th class="subhead">Costo U.</th>
+                        <th class="subhead">Importe</th>
+                        <!-- Salidas -->
+                        <th class="subhead">Cant.</th>
+                        <th class="subhead">Costo U.</th>
+                        <th class="subhead">Importe</th>
+                        <!-- Existencias -->
+                        <th class="subhead">Cant.</th>
+                        <th class="subhead">Costo Prom./U.</th>
+                        <th class="subhead">Saldo ($)</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyAlmacen">
+                    <!-- Filas generadas dinámicamente con JavaScript -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
